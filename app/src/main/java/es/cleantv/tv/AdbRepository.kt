@@ -1,7 +1,7 @@
 package es.cleantv.tv
 
 import android.content.Context
-import dev.mobile.dadb.Dadb
+import dadb.Dadb
 
 /** Operaciones limitadas a un daemon ADB local autorizado; nunca invoca su. */
 class AdbRepository(private val context: Context) {

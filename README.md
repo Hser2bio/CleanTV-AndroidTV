@@ -56,3 +56,6 @@ Habilitar la depuración sólo en una red de confianza, aceptar únicamente soli
 
 ## Licencias
 Código nuevo de este MVP bajo licencia MIT (ver LICENSE). La dependencia `dadb` se distribuye bajo Apache-2.0. CleanYourTV es MIT © 2026 Gathin; se ha consultado su documentación pero **no se han copiado scripts ni el launcher**.
+
+## Corrección v0.5 — compilación Kotlin
+El paquete Kotlin de la biblioteca `dev.mobile:dadb:1.2.6` es `dadb`, no `dev.mobile.dadb`. En `AdbRepository.kt` se corrigió el import a `import dadb.Dadb`. El error de compilación `Unresolved reference 'dev'` y los errores encadenados de `Dadb`, `shell`, `map`, `filter` y `it` se originaban en ese import. La compilación completa debe verificarse en GitHub Actions.
