@@ -73,3 +73,7 @@ Se soluciona creando y reutilizando un par de claves ADB dentro de `context.file
 **Limitación importante:** esto solo soluciona el error de la ruta de la clave. Para conectar, el televisor debe ofrecer y tener activada la depuración ADB TCP en `127.0.0.1:5555` y aceptar la autorización ADB. La depuración inalámbrica con emparejamiento TLS por código **no** está implementada. Algunos televisores no admiten una conexión ADB a sí mismos; en esos dispositivos, esta versión no podrá realizar cambios.
 
 Antes de desactivar nada, verifica que puedes analizar las aplicaciones y restaurar una modificación de prueba segura. No desactives paquetes del sistema desconocidos.
+
+## v0.8: compatibilidad dadb 1.2.6
+
+La llamada `Dadb.create` usa únicamente host, port y keyPair para ajustarse a la firma aceptada por la dependencia fijada en Gradle. Se eliminan `connectTimeout` y `socketTimeout` que provocaban error de compilación. Compilación completa todavía no verificada. Para el Fire TV Stick sigue siendo necesaria una conexión ADB TCP autorizada; Fire OS puede restringirla.

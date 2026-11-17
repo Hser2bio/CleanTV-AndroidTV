@@ -26,9 +26,7 @@ class AdbRepository(private val context: Context) {
         Dadb.create(
             host = "127.0.0.1",
             port = 5555,
-            keyPair = adbKeyPair(),
-            connectTimeout = 5000,
-            socketTimeout = 10000
+            keyPair = adbKeyPair()
         ).use(block)
 
     fun probe(): String = withAdb { adb ->
