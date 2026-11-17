@@ -21,7 +21,7 @@ Proyecto Android TV en Kotlin, controlable con mando a distancia, inspirado en l
 
 ## Compilación automática en GitHub Actions
 
-**Corrección de noviembre 2026:** eliminado `android-actions/setup-android@v3` del workflow porque invocaba `sdkmanager tools`, un paquete inexistente. Se utiliza el SDK preinstalado del runner Ubuntu, se aceptan licencias y se instalan plataforma 35 y build-tools 35.0.0. No se ha ejecutado aún una compilación verificada.
+**Corrección v0.4 (noviembre 2026):** el workflow localiza `sdkmanager` mediante ruta absoluta dentro del Android SDK. Si no existe, instala las herramientas de línea de comandos oficiales de Google. Se instalan Android SDK 35 y build-tools 35.0.0 y se evita el error `sdkmanager: command not found`. La compilación del APK aún no se ha verificado.
 
 
 Este ZIP incluye `.github/workflows/build-apk.yml`. Para obtener el APK sin Android Studio:
