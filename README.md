@@ -59,3 +59,8 @@ Código nuevo de este MVP bajo licencia MIT (ver LICENSE). La dependencia `dadb`
 
 ## Corrección v0.5 — compilación Kotlin
 El paquete Kotlin de la biblioteca `dev.mobile:dadb:1.2.6` es `dadb`, no `dev.mobile.dadb`. En `AdbRepository.kt` se corrigió el import a `import dadb.Dadb`. El error de compilación `Unresolved reference 'dev'` y los errores encadenados de `Dadb`, `shell`, `map`, `filter` y `it` se originaban en ese import. La compilación completa debe verificarse en GitHub Actions.
+
+
+## Corrección v0.6
+
+La compilación de v0.5 pasó `compileDebugKotlin`, pero falló en `:app:mergeDebugJavaResource` por duplicados de `META-INF/LICENSE.md` incluidos en dependencias transitivas de JUnit. Se añade `android.packaging.resources.excludes` para los metadatos duplicados (no elimina el archivo LICENSE del proyecto). Compilación completa pendiente de verificar en GitHub Actions.
