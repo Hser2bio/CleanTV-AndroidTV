@@ -2,13 +2,34 @@ package es.cleantv.tv
 
 import android.content.Context
 import dadb.Dadb
+import dadb.AdbKeyPair
+import java.io.File
 
 /** Operaciones limitadas a un daemon ADB local autorizado; nunca invoca su. */
 class AdbRepository(private val context: Context) {
     private val prefs = context.getSharedPreferences("changes", Context.MODE_PRIVATE)
 
-    // DADB usa su propia clave ADB; la autorización debe aceptarse en el televisor.
-    private fun <T> withAdb(block: (Dadb) -> T): T = Dadb.create("127.0.0.1", 5555).use(block)
+    // Conserva la identidad ADB en almacenamiento privado de esta aplicación.
+    // No se utiliza ~/.android: en Android TV no es un directorio escribible fiable.
+    private fun adbKeyPair(): AdbKeyPair {
+        val folder = File(context.filesDir, "adb")
+        val privateKey = File(folder, "adbkey")
+        val publicKey = File(folder, "adbkey.pub")
+        if (!privateKey.exists() || !publicKey.exists()) {
+            check(folder.exists() || folder.mkdirs()) { "No se pudo crear el directorio privado de ADB" }
+            AdbKeyPair.generate(privateKey, publicKey)
+        }
+        return AdbKeyPair.read(privateKey, publicKey)
+    }
+
+    private fun <T> withAdb(block: (Dadb) -> T): T =
+        Dadb.create(
+            host = "127.0.0.1",
+            port = 5555,
+            keyPair = adbKeyPair(),
+            connectTimeout = 5000,
+            socketTimeout = 10000
+        ).use(block)
 
     fun probe(): String = withAdb { adb ->
         val manufacturer = adb.shell("getprop ro.product.manufacturer").output.trim()

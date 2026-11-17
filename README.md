@@ -64,3 +64,12 @@ El paquete Kotlin de la biblioteca `dev.mobile:dadb:1.2.6` es `dadb`, no `dev.mo
 ## Corrección v0.6
 
 La compilación de v0.5 pasó `compileDebugKotlin`, pero falló en `:app:mergeDebugJavaResource` por duplicados de `META-INF/LICENSE.md` incluidos en dependencias transitivas de JUnit. Se añade `android.packaging.resources.excludes` para los metadatos duplicados (no elimina el archivo LICENSE del proyecto). Compilación completa pendiente de verificar en GitHub Actions.
+
+
+## v0.7: error `.android/adbkey: ENOENT`
+
+Se soluciona creando y reutilizando un par de claves ADB dentro de `context.filesDir/adb`, el directorio privado de la app. Evita depender de `user.home`, que no suele estar configurado para aplicaciones Android. No borres los datos de CleanTV después de autorizar la conexión porque se perderán tanto la clave como el registro local de restauración.
+
+**Limitación importante:** esto solo soluciona el error de la ruta de la clave. Para conectar, el televisor debe ofrecer y tener activada la depuración ADB TCP en `127.0.0.1:5555` y aceptar la autorización ADB. La depuración inalámbrica con emparejamiento TLS por código **no** está implementada. Algunos televisores no admiten una conexión ADB a sí mismos; en esos dispositivos, esta versión no podrá realizar cambios.
+
+Antes de desactivar nada, verifica que puedes analizar las aplicaciones y restaurar una modificación de prueba segura. No desactives paquetes del sistema desconocidos.
